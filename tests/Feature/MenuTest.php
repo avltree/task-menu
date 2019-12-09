@@ -53,6 +53,7 @@ class MenuTest extends TestCase
         ];
         $this->postJson('/api/menus', $menuData);
         $response = $this->postJson('/api/menus', $menuData);
+
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertExactJson([
             'field' => ['The field has already been taken.']
@@ -68,7 +69,43 @@ class MenuTest extends TestCase
         ];
         $storeResponse = $this->postJson('/api/menus', $menuData);
         $response = $this->get('/api/menus/' . $storeResponse->json('id'));
+
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson($menuData);
+    }
+
+    public function testUpdate()
+    {
+        $menuData = [
+            'field' => 'value',
+            'max_depth' => 5,
+            'max_children' => 5
+        ];
+        $storeResponse = $this->postJson('/api/menus', $menuData);
+        $newMenuData = [
+            'field' => 'new_value',
+            'max_depth' => 15,
+            'max_children' => 25
+        ];
+        $response = $this->put('/api/menus/' . $storeResponse->json('id'), $newMenuData);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson($newMenuData);
+    }
+
+    public function testEmptyUpdate()
+    {
+        $menuData = [
+            'field' => 'value',
+            'max_depth' => 5,
+            'max_children' => 5
+        ];
+        $storeResponse = $this->postJson('/api/menus', $menuData);
+        $response = $this->put('/api/menus/' . $storeResponse->json('id'), []);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertExactJson([
+            'field' => ['Nothing to update.']
+        ]);
     }
 }
