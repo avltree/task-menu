@@ -1,4 +1,4 @@
-FROM php:7.4-alpine
+FROM php:7.3-alpine
 
 RUN apk update && apk add bash postgresql-dev && \
     docker-php-ext-install pdo_pgsql
