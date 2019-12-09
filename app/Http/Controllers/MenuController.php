@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateMenuRequest;
 use App\Services\MenuRegistry\MenuRegistry;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -52,13 +53,13 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $menu
-     * @return \Illuminate\Http\Response
+     * @param UpdateMenuRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $menu)
+    public function update(UpdateMenuRequest $request, int $id)
     {
-        //
+        return response()->json($this->menuRegistry->updateMenu($id, $request));
     }
 
     /**

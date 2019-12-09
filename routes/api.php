@@ -2,8 +2,8 @@
 
 Route::post('/menus', 'MenuController@store');
 Route::get('/menus/{id}', 'MenuController@show')->where('id', '\d+');
-Route::put('/menus/{menu}', 'MenuController@update');
-Route::patch('/menus/{menu}', 'MenuController@update');
+Route::put('/menus/{id}', 'MenuController@update')->where('id', '\d+');
+Route::patch('/menus/{id}', 'MenuController@update')->where('id', '\d+');
 Route::delete('/menus/{menu}', 'MenuController@destroy');
 
 Route::post('/menus/{menu}/items', 'MenuItemController@store');
