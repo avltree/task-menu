@@ -58,4 +58,17 @@ class MenuTest extends TestCase
             'field' => ['The field has already been taken.']
         ]);
     }
+
+    public function testShow()
+    {
+        $menuData = [
+            'field' => 'value',
+            'max_depth' => 5,
+            'max_children' => 5
+        ];
+        $storeResponse = $this->postJson('/api/menus', $menuData);
+        $response = $this->get('/api/menus/' . $storeResponse->json('id'));
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson($menuData);
+    }
 }
