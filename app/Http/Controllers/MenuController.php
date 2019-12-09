@@ -41,8 +41,8 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  mixed  $menu
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(int $id)
     {
