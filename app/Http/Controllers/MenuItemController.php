@@ -2,19 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMenuItemsRequest;
+use App\Services\MenuRegistry\MenuRegistry;
 use Illuminate\Http\Request;
 
 class MenuItemController extends Controller
 {
+    /**
+     * @var MenuRegistry
+     */
+    protected $menuRegistry;
+
+    /**
+     * MenuController constructor.
+     *
+     * @param MenuRegistry $menuRegistry
+     */
+    public function __construct(MenuRegistry $menuRegistry)
+    {
+        $this->menuRegistry = $menuRegistry;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMenuItemsRequest $request, int $id)
     {
-        //
+        $this->menuRegistry->storeMenuItems($id, $request);
     }
 
     /**

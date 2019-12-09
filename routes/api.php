@@ -6,7 +6,7 @@ Route::put('/menus/{id}', 'MenuController@update')->where('id', '\d+');
 Route::patch('/menus/{id}', 'MenuController@update')->where('id', '\d+');
 Route::delete('/menus/{id}', 'MenuController@destroy')->where('id', '\d+');
 
-Route::post('/menus/{menu}/items', 'MenuItemController@store');
+Route::post('/menus/{id}/items', 'MenuItemController@store')->where('id', '\d+');
 Route::get('/menus/{menu}/items', 'MenuItemController@show');
 Route::delete('/menus/{menu}/items', 'MenuItemController@destroy');
 

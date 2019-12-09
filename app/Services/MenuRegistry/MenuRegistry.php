@@ -2,6 +2,7 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Menu;
@@ -44,4 +45,6 @@ interface MenuRegistry
      * @param int $id
      */
     public function deleteMenu(int $id): void;
+
+    public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void;
 }

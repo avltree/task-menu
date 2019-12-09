@@ -2,9 +2,12 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Item;
 use App\Menu;
+use Illuminate\Support\Facades\DB;
 
 class SimpleEloquentMenuRegistry implements MenuRegistry
 {
@@ -47,5 +50,35 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     {
         $menu = $this->findById($id);
         $menu->delete();
+    }
+
+    public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void
+    {
+        DB::beginTransaction();
+
+        $menu = $this->findById($id);
+        $menu->items()->delete();
+        $this->storeItems($request->validated()['data'], $menu);
+
+        DB::commit();
+    }
+
+    private function storeItems(array $items, Menu $menu, ?Item $parent = null)
+    {
+        foreach ($items as $itemData) {
+            $item = new Item();
+            $item->field = $itemData['field'];
+            $item->menu()->associate($menu);
+
+            if ($parent) {
+                $item->parent()->associate($parent);
+            }
+
+            $item->save();
+
+            if (!empty($itemData['children'])) {
+                $this->storeItems($itemData['children'], $menu, $item);
+            }
+        }
     }
 }
