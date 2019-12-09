@@ -108,4 +108,19 @@ class MenuTest extends TestCase
             'field' => ['Nothing to update.']
         ]);
     }
+
+    public function testDeleteAndNotFound()
+    {
+        $menuData = [
+            'field' => 'value',
+            'max_depth' => 5,
+            'max_children' => 5
+        ];
+        $storeResponse = $this->postJson('/api/menus', $menuData);
+        $deleteResponse = $this->delete('/api/menus/' . $storeResponse->json('id'));
+        $findResponse = $this->get('/api/menus/' . $storeResponse->json('id'));
+
+        $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
+        $findResponse->assertStatus(Response::HTTP_NOT_FOUND);
+    }
 }
