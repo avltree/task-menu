@@ -2,9 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
+/**
+ * Request object for updating the menus.
+ *
+ * @package App\Http\Requests
+ */
 class UpdateMenuRequest extends NonRedirectingFormRequest
 {
     /**

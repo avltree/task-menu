@@ -6,13 +6,42 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Menu;
 
+/**
+ * Interface for services designed to store the menus and their items.
+ *
+ * @package App\Services\MenuRegistry
+ */
 interface MenuRegistry
 {
+    /**
+     * Stores a new menu.
+     *
+     * @param StoreMenuRequest $request
+     * @return Menu
+     */
     public function storeMenu(StoreMenuRequest $request): Menu;
 
-    public function findById(int $id): ?Menu;
+    /**
+     * Finds a menu by its id.
+     *
+     * @param int $id
+     * @return Menu
+     */
+    public function findById(int $id): Menu;
 
+    /**
+     * Updates a menu.
+     *
+     * @param int $id
+     * @param UpdateMenuRequest $request
+     * @return Menu
+     */
     public function updateMenu(int $id, UpdateMenuRequest $request): Menu;
 
+    /**
+     * Deletes a menu.
+     *
+     * @param int $id
+     */
     public function deleteMenu(int $id): void;
 }

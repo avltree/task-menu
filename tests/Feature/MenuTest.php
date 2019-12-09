@@ -12,8 +12,6 @@ class MenuTest extends TestCase
 
     /**
      * Test storing the menu.
-     *
-     * @return void
      */
     public function testStoreMenu()
     {
@@ -28,6 +26,9 @@ class MenuTest extends TestCase
         $response->assertJson($menuData);
     }
 
+    /**
+     * Test storing a menu with invalid params.
+     */
     public function testStoreInvalidMenu()
     {
         $menuData = [
@@ -44,6 +45,9 @@ class MenuTest extends TestCase
         ]);
     }
 
+    /**
+     * Test trying to store a duplicate menu (the same 'field' value).
+     */
     public function testStoreDuplicateMenu()
     {
         $menuData = [
@@ -60,6 +64,9 @@ class MenuTest extends TestCase
         ]);
     }
 
+    /**
+     * Test getting a single menu.
+     */
     public function testShow()
     {
         $menuData = [
@@ -74,6 +81,9 @@ class MenuTest extends TestCase
         $response->assertJson($menuData);
     }
 
+    /**
+     * Test updating a menu.
+     */
     public function testUpdate()
     {
         $menuData = [
@@ -93,6 +103,9 @@ class MenuTest extends TestCase
         $response->assertJson($newMenuData);
     }
 
+    /**
+     * Test an empty menu update.
+     */
     public function testEmptyUpdate()
     {
         $menuData = [
@@ -109,6 +122,9 @@ class MenuTest extends TestCase
         ]);
     }
 
+    /**
+     * Tests deleting a menu and also getting a nonexistent menu item.
+     */
     public function testDeleteAndNotFound()
     {
         $menuData = [

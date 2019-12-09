@@ -2,6 +2,11 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Request object for storing the menus.
+ *
+ * @package App\Http\Requests
+ */
 class StoreMenuRequest extends NonRedirectingFormRequest
 {
     /**

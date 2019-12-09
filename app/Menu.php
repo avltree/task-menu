@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Represents a menu.
+ *
+ * @package App
+ */
 class Menu extends Model
 {
     protected $fillable = ['field', 'max_depth', 'max_children'];
