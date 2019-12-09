@@ -13,4 +13,6 @@ interface MenuRegistry
     public function findById(int $id): ?Menu;
 
     public function updateMenu(int $id, UpdateMenuRequest $request): Menu;
+
+    public function deleteMenu(int $id): void;
 }

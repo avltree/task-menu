@@ -30,4 +30,10 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
 
         return $menu;
     }
+
+    public function deleteMenu(int $id): void
+    {
+        $menu = $this->findById($id);
+        $menu->delete();
+    }
 }

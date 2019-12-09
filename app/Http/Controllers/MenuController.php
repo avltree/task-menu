@@ -65,11 +65,13 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $menu
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu)
+    public function destroy(int $id)
     {
-        //
+        $this->menuRegistry->deleteMenu($id);
+
+        return response()->noContent();
     }
 }
