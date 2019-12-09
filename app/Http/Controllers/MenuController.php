@@ -44,9 +44,9 @@ class MenuController extends Controller
      * @param  mixed  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show($menu)
+    public function show(int $id)
     {
-        //
+        return response()->json($this->menuRegistry->findById($id));
     }
 
     /**

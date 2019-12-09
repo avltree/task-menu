@@ -1,7 +1,7 @@
 <?php
 
 Route::post('/menus', 'MenuController@store');
-Route::get('/menus/{menu}', 'MenuController@show');
+Route::get('/menus/{id}', 'MenuController@show')->where('id', '\d+');
 Route::put('/menus/{menu}', 'MenuController@update');
 Route::patch('/menus/{menu}', 'MenuController@update');
 Route::delete('/menus/{menu}', 'MenuController@destroy');

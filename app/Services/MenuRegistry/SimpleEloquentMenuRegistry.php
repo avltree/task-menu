@@ -11,4 +11,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     {
         return Menu::create($request->validated());
     }
+
+    public function findById(int $id): Menu
+    {
+        return Menu::findOrFail($id);
+    }
 }

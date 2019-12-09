@@ -8,4 +8,6 @@ use App\Menu;
 interface MenuRegistry
 {
     public function storeMenu(StoreMenuRequest $request): Menu;
+
+    public function findById(int $id): ?Menu;
 }
