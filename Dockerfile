@@ -1,6 +1,7 @@
 FROM php:7.4-alpine
 
-RUN apk update && apk add bash
+RUN apk update && apk add bash postgresql-dev && \
+    docker-php-ext-install pdo_pgsql
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN mkdir /menu

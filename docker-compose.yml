@@ -6,3 +6,25 @@ services:
     volumes:
       - .:/menu
     tty: true
+    ports:
+      - 8080:8000
+    depends_on:
+      - postgres
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 8081:5432
+
+volumes:
+  postgres_data:
