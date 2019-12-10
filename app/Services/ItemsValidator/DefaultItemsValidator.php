@@ -31,10 +31,9 @@ class DefaultItemsValidator implements ItemsValidator
     /**
      * @inheritDoc
      */
-    public function validateRequestAndInjectErrors(Validator $validator): void
+    public function validateRequestAndInjectErrors(Validator $validator, ?int $menuId = null): void
     {
-        $request = request();
-        $items = $request->all();
+        $items = request()->all();
         $errors = $validator->errors();
 
         if (empty($items)) {
@@ -42,15 +41,18 @@ class DefaultItemsValidator implements ItemsValidator
         }
 
         list($maxDepth, $maxLen) = $this->validateItems($items, $errors);
-        // Not worrying about nonexistent menus, because an exception will trigger an 404 error at this point
-        $menu = $this->menuRegistry->findMenuById($request->route()->parameter('id'));
 
-        if ($maxDepth > $menu->max_depth) {
-            $errors->add('items', sprintf('The items depth is %d, but max is %d.', $maxDepth, $menu->max_depth));
-        }
+        if (null !== $menuId) {
+            // Not worrying about nonexistent menus, because an exception will trigger an 404 error at this point
+            $menu = $this->menuRegistry->findMenuById($menuId);
 
-        if ($maxLen > $menu->max_children) {
-            $errors->add('items', sprintf('Items length is %d, but max is %d.', $maxLen, $menu->max_children));
+            if ($maxDepth > $menu->max_depth) {
+                $errors->add('items', sprintf('The items depth is %d, but max is %d.', $maxDepth, $menu->max_depth));
+            }
+
+            if ($maxLen > $menu->max_children) {
+                $errors->add('items', sprintf('Items length is %d, but max is %d.', $maxLen, $menu->max_children));
+            }
         }
     }
 

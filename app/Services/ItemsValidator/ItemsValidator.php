@@ -12,5 +12,5 @@ use Illuminate\Validation\Validator;
  */
 interface ItemsValidator
 {
-    public function validateRequestAndInjectErrors(Validator $validator): void;
+    public function validateRequestAndInjectErrors(Validator $validator, ?int $menuId = null): void;
 }

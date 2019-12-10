@@ -42,7 +42,7 @@ class StoreMenuItemsRequest extends NonRedirectingFormRequest
             // FIXME hidden dependency
             /* @var ItemsValidator $itemsValidator */
             $itemsValidator = $this->container->make(ItemsValidator::class);
-            $itemsValidator->validateRequestAndInjectErrors($validator);
+            $itemsValidator->validateRequestAndInjectErrors($validator, $this->route()->parameter('id'));
         });
     }
 }
