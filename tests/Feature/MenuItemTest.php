@@ -31,7 +31,7 @@ class MenuItemTest extends TestCase
         $response = $this->postJson(sprintf('/api/menus/%d/items', $this->createMenu(2, 2)), $itemsData);
 
         $response->assertStatus(Response::HTTP_CREATED);
-        // TODO assert for response body
+        $response->assertJson($itemsData);
     }
 
     /**
