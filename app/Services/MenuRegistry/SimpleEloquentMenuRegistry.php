@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateItemRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Item;
 use App\Menu;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SimpleEloquentMenuRegistry implements MenuRegistry
 {
@@ -34,12 +36,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function updateMenu(int $id, UpdateMenuRequest $request): Menu
     {
         $menu = $this->findMenuById($id);
-
-        foreach ($request->validated() as $name => $value) {
-            $menu->$name = $value;
-        }
-
-        $menu->save();
+        $this->updateEntity($menu, $request);
 
         return $menu;
     }
@@ -120,13 +117,23 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function updateItem(int $id, UpdateItemRequest $request): Item
     {
         $item = $this->findItemById($id);
-
-        foreach ($request->validated() as $name => $value) {
-            $item->$name = $value;
-        }
-
-        $item->save();
+        $this->updateEntity($item, $request);
 
         return $item;
+    }
+
+    /**
+     * Helper function for updating model fields.
+     *
+     * @param Model $entity
+     * @param FormRequest $request
+     */
+    private function updateEntity(Model $entity, FormRequest $request): void
+    {
+        foreach ($request->validated() as $name => $value) {
+            $entity->$name = $value;
+        }
+
+        $entity->save();
     }
 }
