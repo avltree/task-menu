@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\MenuRegistry\MenuRegistry;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\Validator;
 
@@ -46,7 +47,20 @@ class StoreMenuItemsRequest extends NonRedirectingFormRequest
                 $errors->add('items', 'No valid items passed.');
             }
 
-            $this->validateItems($items, $errors);
+            list($maxDepth, $maxLen) = $this->validateItems($items, $errors);
+            // FIXME hidden dependency
+            /* @var MenuRegistry $menuRegistry */
+            $menuRegistry = $this->container->make(MenuRegistry::class);
+            // Not worrying about nonexistent menus, because an exception will trigger an 404 error at this point
+            $menu = $menuRegistry->findById($this->route()->parameter('id'));
+
+            if ($maxDepth > $menu->max_depth) {
+                $errors->add('items', sprintf('The items depth is %d, but max is %d.', $maxDepth, $menu->max_depth));
+            }
+
+            if ($maxLen > $menu->max_children) {
+                $errors->add('items', sprintf('Items length is %d, but max is %d.', $maxLen, $menu->max_children));
+            }
         });
     }
 
@@ -56,9 +70,13 @@ class StoreMenuItemsRequest extends NonRedirectingFormRequest
      * @param array $items
      * @param MessageBag $errors
      * @param int $depth
+     * @return array
      */
-    private function validateItems(array $items, MessageBag $errors, int $depth = 0)
+    private function validateItems(array $items, MessageBag $errors, int $depth = 1): array
     {
+        $maxLen = count($items);
+        $maxDepth = $depth;
+
         foreach ($items as $index => $item) {
             if (is_array($item)) {
                 $validator = \Illuminate\Support\Facades\Validator::make($item, [
@@ -70,11 +88,14 @@ class StoreMenuItemsRequest extends NonRedirectingFormRequest
                 $errors->merge($validator->errors());
 
                 if (!empty($item['children']) && is_array($item['children'])) {
-                    $this->validateItems($item['children'], $errors, $depth + 1);
+                    list($maxDepth, $childLen) = $this->validateItems($item['children'], $errors, $depth + 1);
+                    $maxLen = $maxLen > $childLen ? $maxLen : $childLen;
                 }
             } else {
                 $errors->add(sprintf('item[%d][%d]', $depth, $index), 'Item is not an array.');
             }
         }
+
+        return [$maxDepth, $maxLen];
     }
 }
