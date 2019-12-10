@@ -5,6 +5,7 @@ namespace App\Services\MenuRegistry;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Item;
 use App\Menu;
@@ -111,5 +112,21 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function findItemById(int $id): Item
     {
         return Item::findOrFail($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateItem(int $id, UpdateItemRequest $request): Item
+    {
+        $item = $this->findItemById($id);
+
+        foreach ($request->validated() as $name => $value) {
+            $item->$name = $value;
+        }
+
+        $item->save();
+
+        return $item;
     }
 }

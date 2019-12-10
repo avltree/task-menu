@@ -5,6 +5,7 @@ namespace App\Services\MenuRegistry;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Item;
 use App\Menu;
@@ -79,4 +80,13 @@ interface MenuRegistry
      * @return Item
      */
     public function findItemById(int $id): Item;
+
+    /**
+     * Updates a single item.
+     *
+     * @param int $id
+     * @param UpdateItemRequest $request
+     * @return Item
+     */
+    public function updateItem(int $id, UpdateItemRequest $request): Item;
 }

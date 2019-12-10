@@ -17,8 +17,8 @@ Route::get('/menus/{menu}/depth', 'MenuDepthControlles@show');
 
 Route::post('/items', 'ItemController@store');
 Route::get('/items/{id}', 'ItemController@show')->where('id', '\d+');
-Route::put('/items/{item}', 'ItemController@update');
-Route::patch('/items/{item}', 'ItemController@update');
+Route::put('/items/{id}', 'ItemController@update')->where('id', '\d+');
+Route::patch('/items/{id}', 'ItemController@update')->where('id', '\d+');
 Route::delete('/items/{item}', 'ItemController@destroy');
 
 Route::post('/items/{item}/children', 'ItemChildrenController@store');

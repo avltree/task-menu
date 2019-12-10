@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Services\MenuRegistry\MenuRegistry;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -50,13 +51,13 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $item
-     * @return \Illuminate\Http\Response
+     * @param UpdateItemRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $item)
+    public function update(UpdateItemRequest $request, int $id)
     {
-        //
+        return response()->json($this->menuRegistry->updateItem($id, $request));
     }
 
     /**
