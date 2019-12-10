@@ -23,4 +23,22 @@ class ItemTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJson($itemData);
     }
+
+    /**
+     * Test item update.
+     */
+    public function testUpdateItem()
+    {
+        $itemData = [
+            'field' => 'value'
+        ];
+        $storeResponse = $this->postJson('/api/items', $itemData);
+        $newItemData = [
+            'field' => 'new_value'
+        ];
+        $response = $this->put('/api/items/' . $storeResponse->json('id'), $newItemData);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson($newItemData);
+    }
 }
