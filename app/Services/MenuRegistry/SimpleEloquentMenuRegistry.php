@@ -7,7 +7,6 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Item;
 use App\Menu;
-use Illuminate\Support\Facades\DB;
 
 class SimpleEloquentMenuRegistry implements MenuRegistry
 {
