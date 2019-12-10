@@ -2,6 +2,7 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
@@ -94,5 +95,13 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
                 $this->storeItems($itemData['children'], $menu, $item);
             }
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function storeSingleItem(StoreItemRequest $request): Item
+    {
+        return Item::create($request->validated());
     }
 }

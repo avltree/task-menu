@@ -2,9 +2,11 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Item;
 use App\Menu;
 
 /**
@@ -61,4 +63,12 @@ interface MenuRegistry
      * @param int $id
      */
     public function deleteMenuItems(int $id): void;
+
+    /**
+     * Stores a single item.
+     *
+     * @param StoreItemRequest $request
+     * @return Item
+     */
+    public function storeSingleItem(StoreItemRequest $request): Item;
 }
