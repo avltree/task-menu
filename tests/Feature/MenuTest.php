@@ -139,4 +139,27 @@ class MenuTest extends TestCase
         $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
         $findResponse->assertStatus(Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * Test deleting a not empty menu.
+     */
+    public function testDeleteMenuWithItems()
+    {
+        $menuData = [
+            'field' => 'value',
+            'max_depth' => 5,
+            'max_children' => 5
+        ];
+        $storeResponse = $this->postJson('/api/menus', $menuData);
+        $menuId = $storeResponse->json('id');
+        $itemsData = [
+            [
+                'field' => 'value'
+            ]
+        ];
+        $this->postJson(sprintf('/api/menus/%d/items', $menuId), $itemsData);
+        $deleteResponse = $this->delete('/api/menus/' . $storeResponse->json('id'));
+
+        $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
+    }
 }
