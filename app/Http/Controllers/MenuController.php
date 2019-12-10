@@ -47,7 +47,7 @@ class MenuController extends Controller
      */
     public function show(int $id)
     {
-        return response()->json($this->menuRegistry->findById($id));
+        return response()->json($this->menuRegistry->findMenuById($id));
     }
 
     /**

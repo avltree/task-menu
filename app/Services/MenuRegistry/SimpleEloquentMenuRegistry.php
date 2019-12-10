@@ -22,7 +22,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     /**
      * @inheritDoc
      */
-    public function findById(int $id, bool $withItems = false): Menu
+    public function findMenuById(int $id, bool $withItems = false): Menu
     {
         return $withItems ? Menu::with('items')->findOrFail($id): Menu::findOrFail($id);
     }
@@ -32,7 +32,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      */
     public function updateMenu(int $id, UpdateMenuRequest $request): Menu
     {
-        $menu = $this->findById($id);
+        $menu = $this->findMenuById($id);
 
         foreach ($request->validated() as $name => $value) {
             $menu->$name = $value;
@@ -48,7 +48,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      */
     public function deleteMenu(int $id): void
     {
-        $menu = $this->findById($id);
+        $menu = $this->findMenuById($id);
         $menu->delete();
     }
 
@@ -57,7 +57,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      */
     public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void
     {
-        $menu = $this->findById($id);
+        $menu = $this->findMenuById($id);
         $menu->items()->delete();
         $this->storeItems($request->validated()['data'], $menu);
     }
@@ -67,7 +67,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      */
     public function deleteMenuItems(int $id): void
     {
-        $menu = $this->findById($id);
+        $menu = $this->findMenuById($id);
         $menu->items()->delete();
     }
 

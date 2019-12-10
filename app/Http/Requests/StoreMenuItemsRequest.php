@@ -52,7 +52,7 @@ class StoreMenuItemsRequest extends NonRedirectingFormRequest
             /* @var MenuRegistry $menuRegistry */
             $menuRegistry = $this->container->make(MenuRegistry::class);
             // Not worrying about nonexistent menus, because an exception will trigger an 404 error at this point
-            $menu = $menuRegistry->findById($this->route()->parameter('id'));
+            $menu = $menuRegistry->findMenuById($this->route()->parameter('id'));
 
             if ($maxDepth > $menu->max_depth) {
                 $errors->add('items', sprintf('The items depth is %d, but max is %d.', $maxDepth, $menu->max_depth));

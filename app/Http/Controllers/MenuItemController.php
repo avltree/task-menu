@@ -55,7 +55,7 @@ class MenuItemController extends Controller
     {
         return response()->json(
             $this->itemsFormatter
-                ->toNestedArray($this->menuRegistry->findById($id, true)->items)
+                ->toNestedArray($this->menuRegistry->findMenuById($id, true)->items)
         );
     }
 

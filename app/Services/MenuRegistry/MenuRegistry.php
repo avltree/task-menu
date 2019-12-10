@@ -31,7 +31,7 @@ interface MenuRegistry
      * @param bool $withItems
      * @return Menu
      */
-    public function findById(int $id, bool $withItems = false): Menu;
+    public function findMenuById(int $id, bool $withItems = false): Menu;
 
     /**
      * Updates a menu.
