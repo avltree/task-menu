@@ -42,9 +42,14 @@ class MenuItemTest extends TestCase
         // Let's make sure we have an id which really does not exist by explicitly deleting it
         $id = $this->createMenu(1, 1);
         $this->delete('/api/menus/' . $id);
-        $response = $this->postJson(sprintf('/api/menus/%d/items', $id), []);
+        $uri = sprintf('/api/menus/%d/items', $id);
+        $postResponse = $this->postJson($uri, []);
+        $showResponse = $this->get($uri);
+        $deleteResponse = $this->delete($uri);
 
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $postResponse->assertStatus(Response::HTTP_NOT_FOUND);
+        $showResponse->assertStatus(Response::HTTP_NOT_FOUND);
+        $deleteResponse->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -72,6 +77,27 @@ class MenuItemTest extends TestCase
                 'The items depth is 2, but max is 1.'
             ]
         ]);
+    }
+
+    /**
+     * Test deleting of menu items.
+     */
+    public function testDeleteItems()
+    {
+        $id = $this->createMenu(1, 1);
+        $uri = sprintf('/api/menus/%d/items', $id);
+        $itemsData = [
+            [
+                'field' => 'value'
+            ]
+        ];
+        $this->postJson($uri, $itemsData);
+        $deleteResponse = $this->delete($uri);
+        $showResponse = $this->get($uri);
+
+        $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
+        $showResponse->assertExactJson([]);
+        $showResponse->assertStatus(Response::HTTP_OK);
     }
 
     /**
