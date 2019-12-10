@@ -46,5 +46,11 @@ interface MenuRegistry
      */
     public function deleteMenu(int $id): void;
 
+    /**
+     * Stores items for a specified menu. Overwrites the existing items.
+     *
+     * @param int $id
+     * @param StoreMenuItemsRequest $request
+     */
     public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void;
 }

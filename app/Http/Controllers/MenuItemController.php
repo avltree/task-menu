@@ -26,8 +26,8 @@ class MenuItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMenuItemsRequest $request
+     * @param int $id
      */
     public function store(StoreMenuItemsRequest $request, int $id)
     {

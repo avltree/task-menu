@@ -52,6 +52,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
         $menu->delete();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void
     {
         DB::beginTransaction();
@@ -63,6 +66,13 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
         DB::commit();
     }
 
+    /**
+     * Recursive method used to store menu items in the database.
+     *
+     * @param array $items
+     * @param Menu $menu
+     * @param Item|null $parent
+     */
     private function storeItems(array $items, Menu $menu, ?Item $parent = null)
     {
         foreach ($items as $itemData) {

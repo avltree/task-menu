@@ -5,6 +5,11 @@ namespace App\Http\Requests;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\Validator;
 
+/**
+ * Request object for storing menu items.
+ *
+ * @package App\Http\Requests
+ */
 class StoreMenuItemsRequest extends NonRedirectingFormRequest
 {
     /**
