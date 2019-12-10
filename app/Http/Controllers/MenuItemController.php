@@ -65,8 +65,10 @@ class MenuItemController extends Controller
      * @param  mixed  $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu)
+    public function destroy(int $id)
     {
-        //
+        $this->menuRegistry->deleteMenuItems($id);
+
+        return response()->noContent();
     }
 }

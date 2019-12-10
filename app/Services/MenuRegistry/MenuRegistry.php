@@ -54,4 +54,11 @@ interface MenuRegistry
      * @param StoreMenuItemsRequest $request
      */
     public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void;
+
+    /**
+     * Deletes all of the menu's items.
+     *
+     * @param int $id
+     */
+    public function deleteMenuItems(int $id): void;
 }

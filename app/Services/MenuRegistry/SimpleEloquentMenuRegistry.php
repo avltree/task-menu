@@ -62,6 +62,15 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     }
 
     /**
+     * @inheritDoc
+     */
+    public function deleteMenuItems(int $id): void
+    {
+        $menu = $this->findById($id);
+        $menu->items()->delete();
+    }
+
+    /**
      * Recursive method used to store menu items in the database.
      *
      * @param array $items
