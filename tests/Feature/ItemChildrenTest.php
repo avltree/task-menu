@@ -10,6 +10,9 @@ class ItemChildrenTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Test storing an item's children.
+     */
     public function testStoreItemChildren()
     {
         $itemsData = [
