@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+    protected $visible = ['id', 'field'];
+
     public function menu()
     {
         return $this->belongsTo(Menu::class);

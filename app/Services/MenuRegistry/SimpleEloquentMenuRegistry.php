@@ -22,9 +22,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     /**
      * @inheritDoc
      */
-    public function findById(int $id): Menu
+    public function findById(int $id, bool $withItems = false): Menu
     {
-        return Menu::findOrFail($id);
+        return $withItems ? Menu::with('items')->findOrFail($id): Menu::findOrFail($id);
     }
 
     /**

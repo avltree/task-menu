@@ -26,9 +26,10 @@ interface MenuRegistry
      * Finds a menu by its id.
      *
      * @param int $id
+     * @param bool $withItems
      * @return Menu
      */
-    public function findById(int $id): Menu;
+    public function findById(int $id, bool $withItems = false): Menu;
 
     /**
      * Updates a menu.
