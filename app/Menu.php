@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\MenuDeleting;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,9 @@ class Menu extends Model
         'max_children' => 5
     ];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $dispatchesEvents = [
+        'deleting' => MenuDeleting::class
+    ];
 
     /**
      * Gets the menu items.
