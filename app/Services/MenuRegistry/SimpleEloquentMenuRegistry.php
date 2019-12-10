@@ -123,6 +123,15 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     }
 
     /**
+     * @inheritDoc
+     */
+    public function deleteItem(int $id): void
+    {
+        $item = $this->findItemById($id);
+        $item->delete();
+    }
+
+    /**
      * Helper function for updating model fields.
      *
      * @param Model $entity

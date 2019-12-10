@@ -89,4 +89,11 @@ interface MenuRegistry
      * @return Item
      */
     public function updateItem(int $id, UpdateItemRequest $request): Item;
+
+    /**
+     * Deletes an item.
+     *
+     * @param int $id
+     */
+    public function deleteItem(int $id): void;
 }

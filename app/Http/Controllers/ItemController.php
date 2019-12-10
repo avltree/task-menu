@@ -63,11 +63,13 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $item
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($item)
+    public function destroy(int $id)
     {
-        //
+        $this->menuRegistry->deleteItem($id);
+
+        return response()->noContent();
     }
 }

@@ -19,7 +19,7 @@ Route::post('/items', 'ItemController@store');
 Route::get('/items/{id}', 'ItemController@show')->where('id', '\d+');
 Route::put('/items/{id}', 'ItemController@update')->where('id', '\d+');
 Route::patch('/items/{id}', 'ItemController@update')->where('id', '\d+');
-Route::delete('/items/{item}', 'ItemController@destroy');
+Route::delete('/items/{id}', 'ItemController@destroy')->where('id', '\d+');
 
 Route::post('/items/{item}/children', 'ItemChildrenController@store');
 Route::get('/items/{item}/children', 'ItemChildrenController@show');
