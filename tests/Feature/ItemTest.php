@@ -41,4 +41,21 @@ class ItemTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson($newItemData);
     }
+
+    /**
+     * Tests deleting an item and also getting a nonexistent item.
+     */
+    public function testDeleteAndNotFound()
+    {
+        $itemData = [
+            'field' => 'value'
+        ];
+        $storeResponse = $this->postJson('/api/items', $itemData);
+        $uri = '/api/items/' . $storeResponse->json('id');
+        $deleteResponse = $this->delete($uri);
+        $findResponse = $this->get($uri);
+
+        $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
+        $findResponse->assertStatus(Response::HTTP_NOT_FOUND);
+    }
 }
