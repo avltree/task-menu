@@ -104,4 +104,12 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     {
         return Item::create($request->validated());
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findItemById(int $id): Item
+    {
+        return Item::findOrFail($id);
+    }
 }

@@ -39,12 +39,12 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  mixed  $item
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($item)
+    public function show(int $id)
     {
-        //
+        return response()->json($this->menuRegistry->findItemById($id));
     }
 
     /**

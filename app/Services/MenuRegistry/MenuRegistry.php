@@ -71,4 +71,12 @@ interface MenuRegistry
      * @return Item
      */
     public function storeSingleItem(StoreItemRequest $request): Item;
+
+    /**
+     * Finds a single item in the database.
+     *
+     * @param int $id
+     * @return Item
+     */
+    public function findItemById(int $id): Item;
 }

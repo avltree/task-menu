@@ -16,7 +16,7 @@ Route::delete('/menus/{menu}/layers/{layer}', 'MenuLayerController@destroy');
 Route::get('/menus/{menu}/depth', 'MenuDepthControlles@show');
 
 Route::post('/items', 'ItemController@store');
-Route::get('/items/{item}', 'ItemController@show');
+Route::get('/items/{id}', 'ItemController@show')->where('id', '\d+');
 Route::put('/items/{item}', 'ItemController@update');
 Route::patch('/items/{item}', 'ItemController@update');
 Route::delete('/items/{item}', 'ItemController@destroy');
