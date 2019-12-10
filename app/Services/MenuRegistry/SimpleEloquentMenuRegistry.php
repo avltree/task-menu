@@ -89,6 +89,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
 
             if ($parent) {
                 $item->parent()->associate($parent);
+                $item->root()->associate($parent->root()->exists() ? $parent->root : $parent);
             }
 
             $item->save();
@@ -110,9 +111,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     /**
      * @inheritDoc
      */
-    public function findItemById(int $id): Item
+    public function findItemById(int $id, bool $withChildren = false): Item
     {
-        return Item::findOrFail($id);
+        return $withChildren ? Item::with('children')->findOrFail($id): Item::findOrFail($id);
     }
 
     /**
@@ -141,7 +142,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function storeItemChildren(int $id, StoreItemChildrenRequest $request): void
     {
         $item = $this->findItemById($id);
-        $item->children()->delete();
+        $item->descendants()->delete();
         $this->storeItems($request->validated()['data'], null, $item);
     }
 

@@ -78,9 +78,10 @@ interface MenuRegistry
      * Finds a single item in the database.
      *
      * @param int $id
+     * @param bool $withChildren
      * @return Item
      */
-    public function findItemById(int $id): Item;
+    public function findItemById(int $id, bool $withChildren = false): Item;
 
     /**
      * Updates a single item.

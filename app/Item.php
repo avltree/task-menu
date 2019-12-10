@@ -14,6 +14,11 @@ class Item extends Model
         return $this->belongsTo(Menu::class);
     }
 
+    public function root()
+    {
+        return $this->belongsTo(Item::class, 'root_id');
+    }
+
     public function parent()
     {
         return $this->belongsTo(Item::class, 'parent_id');
@@ -22,5 +27,10 @@ class Item extends Model
     public function children()
     {
         return $this->hasMany(Item::class, 'parent_id');
+    }
+
+    public function descendants()
+    {
+        return $this->hasMany(Item::class, 'root_id');
     }
 }
