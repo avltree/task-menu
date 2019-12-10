@@ -2,6 +2,7 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreItemChildrenRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
@@ -96,4 +97,12 @@ interface MenuRegistry
      * @param int $id
      */
     public function deleteItem(int $id): void;
+
+    /**
+     * Stores child items for a specified item. Overwrites the existing items.
+     *
+     * @param int $id
+     * @param StoreItemChildrenRequest $request
+     */
+    public function storeItemChildren(int $id, StoreItemChildrenRequest $request): void;
 }

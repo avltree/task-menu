@@ -2,6 +2,7 @@
 
 namespace App\Services\MenuRegistry;
 
+use App\Http\Requests\StoreItemChildrenRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\StoreMenuItemsRequest;
 use App\Http\Requests\StoreMenuRequest;
@@ -73,15 +74,18 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      * Recursive method used to store menu items in the database.
      *
      * @param array $items
-     * @param Menu $menu
+     * @param Menu|null $menu
      * @param Item|null $parent
      */
-    private function storeItems(array $items, Menu $menu, ?Item $parent = null)
+    private function storeItems(array $items, ?Menu $menu = null, ?Item $parent = null)
     {
         foreach ($items as $itemData) {
             $item = new Item();
             $item->field = $itemData['field'];
-            $item->menu()->associate($menu);
+
+            if (null !== $menu) {
+                $item->menu()->associate($menu);
+            }
 
             if ($parent) {
                 $item->parent()->associate($parent);
@@ -129,6 +133,16 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     {
         $item = $this->findItemById($id);
         $item->delete();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function storeItemChildren(int $id, StoreItemChildrenRequest $request): void
+    {
+        $item = $this->findItemById($id);
+        $item->children()->delete();
+        $this->storeItems($request->validated()['data'], null, $item);
     }
 
     /**

@@ -21,6 +21,6 @@ Route::put('/items/{id}', 'ItemController@update')->where('id', '\d+');
 Route::patch('/items/{id}', 'ItemController@update')->where('id', '\d+');
 Route::delete('/items/{id}', 'ItemController@destroy')->where('id', '\d+');
 
-Route::post('/items/{item}/children', 'ItemChildrenController@store');
+Route::post('/items/{id}/children', 'ItemChildrenController@store')->where('id', '\d+');
 Route::get('/items/{item}/children', 'ItemChildrenController@show');
 Route::delete('/items/{item}/children', 'ItemChildrenController@destroy');
