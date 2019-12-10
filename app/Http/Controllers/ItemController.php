@@ -33,7 +33,7 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         return response()->json($this->menuRegistry->storeSingleItem($request))
-        ->setStatusCode(Response::HTTP_CREATED);
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
