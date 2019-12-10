@@ -57,13 +57,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
      */
     public function storeMenuItems(int $id, StoreMenuItemsRequest $request): void
     {
-        DB::beginTransaction();
-
         $menu = $this->findById($id);
         $menu->items()->delete();
         $this->storeItems($request->validated()['data'], $menu);
-
-        DB::commit();
     }
 
     /**
