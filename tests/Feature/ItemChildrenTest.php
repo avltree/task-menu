@@ -25,10 +25,14 @@ class ItemChildrenTest extends TestCase
                 'field' => 'value'
             ]
         ];
-        $response = $this->postJson(sprintf('/api/items/%d/children', $this->createItem()), $itemsData);
+        $uri = sprintf('/api/items/%d/children', $this->createItem());
+        $storeResponse = $this->postJson($uri, $itemsData);
+        $getResponse = $this->get($uri);
 
-        $response->assertStatus(Response::HTTP_CREATED);
-        // TODO checking return data
+        $storeResponse->assertStatus(Response::HTTP_CREATED);
+        $storeResponse->assertJson($itemsData);
+        $getResponse->assertStatus(Response::HTTP_OK);
+        $getResponse->assertJson($itemsData);
     }
 
     /**
