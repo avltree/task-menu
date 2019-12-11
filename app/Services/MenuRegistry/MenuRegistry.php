@@ -112,4 +112,13 @@ interface MenuRegistry
      * @param Item $item
      */
     public function deleteItemChildren(Item $item): void;
+
+    /**
+     * Gets the specified menu layer.
+     *
+     * @param int $id
+     * @param int $layer
+     * @return array
+     */
+    public function getMenuLayer(int $id, int $layer): array;
 }

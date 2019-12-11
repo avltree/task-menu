@@ -2,19 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\MenuRegistry\MenuRegistry;
 
 class MenuLayerController extends Controller
 {
     /**
+     * @var MenuRegistry
+     */
+    private $menuRegistry;
+
+    /**
+     * MenuLayerController constructor.
+     *
+     * @param MenuRegistry $menuRegistry
+     */
+    public function __construct(MenuRegistry $menuRegistry)
+    {
+        $this->menuRegistry = $menuRegistry;
+    }
+
+    /**
      * Display the specified resource.
      *
-     * @param  mixed  $menu
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param int $layer
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($menu)
+    public function show(int $id, int $layer)
     {
-        //
+        return response()->json($this->menuRegistry->getMenuLayer($id, $layer));
     }
 
     /**

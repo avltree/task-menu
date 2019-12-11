@@ -165,6 +165,40 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getMenuLayer(int $id, int $layer): array
+    {
+        $menu = $this->findMenuById($id);
+        $items = $menu->items()
+            ->where('parent_id', null)
+            ->get()
+            ->all();
+
+        if (empty($items)) {
+            return [];
+        }
+
+        // Using convention that the first layer is numbered 1 instead of 0, for readability
+        for ($i = 2; $i <= $layer; ++$i) {
+            $childItems = [];
+
+            foreach ($items as $item) {
+                $childItems = array_merge($childItems, $item->children->all());
+            }
+
+            $items = $childItems;
+
+            // Break the loop if no items remaining, no need to search further
+            if (empty($items)) {
+                break;
+            }
+        }
+
+        return $items;
+    }
+
+    /**
      * Helper function for updating model fields.
      *
      * @param Model $entity

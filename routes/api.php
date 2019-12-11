@@ -10,7 +10,10 @@ Route::post('/menus/{id}/items', 'MenuItemController@store')->where('id', '\d+')
 Route::get('/menus/{id}/items', 'MenuItemController@show')->where('id', '\d+');
 Route::delete('/menus/{id}/items', 'MenuItemController@destroy')->where('id', '\d+');
 
-Route::get('/menus/{menu}/layers/{layer}', 'MenuLayerController@show');
+Route::get('/menus/{id}/layers/{layer}', 'MenuLayerController@show')->where([
+    'id' => '\d+',
+    'layer' => '^[1-9]\d*$' // Layer 0 is invalid
+]);
 Route::delete('/menus/{menu}/layers/{layer}', 'MenuLayerController@destroy');
 
 Route::get('/menus/{menu}/depth', 'MenuDepthControlles@show');
