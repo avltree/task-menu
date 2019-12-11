@@ -1,26 +1,32 @@
 <?php
 
 Route::post('/menus', 'MenuController@store');
-Route::get('/menus/{menu}', 'MenuController@show');
-Route::put('/menus/{menu}', 'MenuController@update');
-Route::patch('/menus/{menu}', 'MenuController@update');
-Route::delete('/menus/{menu}', 'MenuController@destroy');
+Route::get('/menus/{id}', 'MenuController@show')->where('id', '\d+');
+Route::put('/menus/{id}', 'MenuController@update')->where('id', '\d+');
+Route::patch('/menus/{id}', 'MenuController@update')->where('id', '\d+');
+Route::delete('/menus/{id}', 'MenuController@destroy')->where('id', '\d+');
 
-Route::post('/menus/{menu}/items', 'MenuItemController@store');
-Route::get('/menus/{menu}/items', 'MenuItemController@show');
-Route::delete('/menus/{menu}/items', 'MenuItemController@destroy');
+Route::post('/menus/{id}/items', 'MenuItemController@store')->where('id', '\d+');
+Route::get('/menus/{id}/items', 'MenuItemController@show')->where('id', '\d+');
+Route::delete('/menus/{id}/items', 'MenuItemController@destroy')->where('id', '\d+');
 
-Route::get('/menus/{menu}/layers/{layer}', 'MenuLayerController@show');
-Route::delete('/menus/{menu}/layers/{layer}', 'MenuLayerController@destroy');
+Route::get('/menus/{id}/layers/{layer}', 'MenuLayerController@show')->where([
+    'id' => '\d+',
+    'layer' => '^[1-9]\d*$' // Layer 0 is invalid
+]);
+Route::delete('/menus/{id}/layers/{layer}', 'MenuLayerController@destroy')->where([
+    'id' => '\d+',
+    'layer' => '^[1-9]\d*$' // Layer 0 is invalid
+]);
 
-Route::get('/menus/{menu}/depth', 'MenuDepthControlles@show');
+Route::get('/menus/{id}/depth', 'MenuDepthController@show')->where('id', '\d+');
 
 Route::post('/items', 'ItemController@store');
-Route::get('/items/{item}', 'ItemController@show');
-Route::put('/items/{item}', 'ItemController@update');
-Route::patch('/items/{item}', 'ItemController@update');
-Route::delete('/items/{item}', 'ItemController@destroy');
+Route::get('/items/{id}', 'ItemController@show')->where('id', '\d+');
+Route::put('/items/{id}', 'ItemController@update')->where('id', '\d+');
+Route::patch('/items/{id}', 'ItemController@update')->where('id', '\d+');
+Route::delete('/items/{id}', 'ItemController@destroy')->where('id', '\d+');
 
-Route::post('/items/{item}/children', 'ItemChildrenController@store');
-Route::get('/items/{item}/children', 'ItemChildrenController@show');
+Route::post('/items/{id}/children', 'ItemChildrenController@store')->where('id', '\d+');
+Route::get('/items/{id}/children', 'ItemChildrenController@show')->where('id', '\d+');
 Route::delete('/items/{item}/children', 'ItemChildrenController@destroy');

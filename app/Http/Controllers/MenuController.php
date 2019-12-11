@@ -2,52 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateMenuRequest;
+use App\Services\MenuRegistry\MenuRegistry;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MenuController extends Controller
 {
     /**
+     * @var MenuRegistry
+     */
+    protected $menuRegistry;
+
+    /**
+     * MenuController constructor.
+     *
+     * @param MenuRegistry $menuRegistry
+     */
+    public function __construct(MenuRegistry $menuRegistry)
+    {
+        $this->menuRegistry = $menuRegistry;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMenuRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreMenuRequest $request)
     {
-        //
+        $menu = $this->menuRegistry->storeMenu($request);
+
+        return response()->json($menu)
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  mixed  $menu
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($menu)
+    public function show(int $id)
     {
-        //
+        return response()->json($this->menuRegistry->findMenuById($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $menu
-     * @return \Illuminate\Http\Response
+     * @param UpdateMenuRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $menu)
+    public function update(UpdateMenuRequest $request, int $id)
     {
-        //
+        return response()->json($this->menuRegistry->updateMenu($id, $request));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $menu
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu)
+    public function destroy(int $id)
     {
-        //
+        $this->menuRegistry->deleteMenu($id);
+
+        return response()->noContent();
     }
 }
