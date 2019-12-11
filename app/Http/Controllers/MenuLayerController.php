@@ -36,11 +36,14 @@ class MenuLayerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  mixed  $menu
+     * @param int $id
+     * @param int $layer
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu)
+    public function destroy(int $id, int $layer)
     {
-        //
+        $this->menuRegistry->deleteMenuLayer($id, $layer);
+
+        return response()->noContent();
     }
 }

@@ -14,7 +14,10 @@ Route::get('/menus/{id}/layers/{layer}', 'MenuLayerController@show')->where([
     'id' => '\d+',
     'layer' => '^[1-9]\d*$' // Layer 0 is invalid
 ]);
-Route::delete('/menus/{menu}/layers/{layer}', 'MenuLayerController@destroy');
+Route::delete('/menus/{id}/layers/{layer}', 'MenuLayerController@destroy')->where([
+    'id' => '\d+',
+    'layer' => '^[1-9]\d*$' // Layer 0 is invalid
+]);
 
 Route::get('/menus/{menu}/depth', 'MenuDepthControlles@show');
 

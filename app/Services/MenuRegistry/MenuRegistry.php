@@ -121,4 +121,13 @@ interface MenuRegistry
      * @return array
      */
     public function getMenuLayer(int $id, int $layer): array;
+
+    /**
+     * Deletes the specified menu layer.
+     *
+     * @param int $id
+     * @param int $layer
+     * @return array
+     */
+    public function deleteMenuLayer(int $id, int $layer): void;
 }

@@ -199,6 +199,25 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     }
 
     /**
+     * @inheritDoc
+     */
+    public function deleteMenuLayer(int $id, int $layer): void
+    {
+        $items = $this->getMenuLayer($id, $layer);
+
+        /* @var Item $item */
+        foreach ($items as $item) {
+            /* @var Item $child */
+            foreach ($item->children as $child) {
+                $child->parent()->associate($item->parent);
+                $child->save();
+            }
+
+            $item->delete();
+        }
+    }
+
+    /**
      * Helper function for updating model fields.
      *
      * @param Model $entity
