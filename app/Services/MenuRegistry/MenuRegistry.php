@@ -78,10 +78,9 @@ interface MenuRegistry
      * Finds a single item in the database.
      *
      * @param int $id
-     * @param bool $withChildren
      * @return Item
      */
-    public function findItemById(int $id, bool $withChildren = false): Item;
+    public function findItemById(int $id): Item;
 
     /**
      * Updates a single item.
@@ -106,4 +105,11 @@ interface MenuRegistry
      * @param StoreItemChildrenRequest $request
      */
     public function storeItemChildren(int $id, StoreItemChildrenRequest $request): void;
+
+    /**
+     * Deletes all of the item's children.
+     *
+     * @param Item $item
+     */
+    public function deleteItemChildren(Item $item): void;
 }

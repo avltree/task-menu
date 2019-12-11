@@ -2,6 +2,7 @@
 
 namespace App\Services\ItemsFormatter;
 
+use App\Item;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -12,6 +13,9 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class DefaultItemsFormatter implements ItemsFormatter
 {
+    /**
+     * @inheritDoc
+     */
     public function toNestedArray(Collection $items, ?int $parentId = null): array
     {
         $level = [];
@@ -30,5 +34,25 @@ class DefaultItemsFormatter implements ItemsFormatter
         }
 
         return $level;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function itemToNestedArray(Item $item): array
+    {
+        $children = [];
+
+        foreach ($item->children as $child) {
+            $children[] = $this->itemToNestedArray($child);
+        }
+
+        $item = $item->toArray();
+
+        if (count($children)) {
+            $item['children'] = $children;
+        }
+
+        return $item;
     }
 }

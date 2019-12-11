@@ -25,16 +25,6 @@ class Item extends Model
     }
 
     /**
-     * Gets the root item relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function root()
-    {
-        return $this->belongsTo(Item::class, 'root_id');
-    }
-
-    /**
      * Gets the parent item relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -52,15 +42,5 @@ class Item extends Model
     public function children()
     {
         return $this->hasMany(Item::class, 'parent_id');
-    }
-
-    /**
-     * Gets the descendants relation (all children, including those of child items, etc.).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function descendants()
-    {
-        return $this->hasMany(Item::class, 'root_id');
     }
 }

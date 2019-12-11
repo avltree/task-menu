@@ -2,6 +2,7 @@
 
 namespace App\Services\ItemsFormatter;
 
+use App\Item;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -19,4 +20,12 @@ interface ItemsFormatter
      * @return array
      */
     public function toNestedArray(Collection $items, ?int $parentId = null): array;
+
+    /**
+     * Formats an item and its children into a nested array.
+     *
+     * @param Item $item
+     * @return array
+     */
+    public function itemToNestedArray(Item $item): array;
 }

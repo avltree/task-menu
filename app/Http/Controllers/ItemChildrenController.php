@@ -53,11 +53,10 @@ class ItemChildrenController extends Controller
      */
     public function show(int $id)
     {
-        // FIXME remove temporary hacky logic from the controller body and replace with a proper one.
-        $item = $this->menuRegistry->findItemById($id, true);
-        $array = $this->itemsFormatter->toNestedArray($item->descendants->add($item));
+        $item = $this->menuRegistry->findItemById($id);
+        $array = $this->itemsFormatter->itemToNestedArray($item);
 
-        return response()->json($array[0]['children']);
+        return response()->json(empty($array['children']) ? [] : $array['children']);
     }
 
     /**

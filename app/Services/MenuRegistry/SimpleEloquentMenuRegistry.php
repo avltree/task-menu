@@ -12,7 +12,14 @@ use App\Item;
 use App\Menu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
+/**
+ * Eloquent implementation of the registry.
+ *
+ * @package App\Services\MenuRegistry
+ * @todo Use transactions where needed.
+ */
 class SimpleEloquentMenuRegistry implements MenuRegistry
 {
     /**
@@ -89,7 +96,6 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
 
             if ($parent) {
                 $item->parent()->associate($parent);
-                $item->root()->associate($parent->root()->exists() ? $parent->root : $parent);
             }
 
             $item->save();
@@ -111,9 +117,9 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     /**
      * @inheritDoc
      */
-    public function findItemById(int $id, bool $withChildren = false): Item
+    public function findItemById(int $id): Item
     {
-        return $withChildren ? Item::with('children')->findOrFail($id): Item::findOrFail($id);
+        return Item::findOrFail($id);
     }
 
     /**
@@ -142,8 +148,19 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function storeItemChildren(int $id, StoreItemChildrenRequest $request): void
     {
         $item = $this->findItemById($id);
-        $item->descendants()->delete();
+        $this->deleteItemChildren($item);
         $this->storeItems($request->validated()['data'], null, $item);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteItemChildren(Item $item): void
+    {
+        foreach ($item->children as $child) {
+            $this->deleteItemChildren($child);
+            $child->delete();
+        }
     }
 
     /**
