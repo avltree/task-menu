@@ -12,7 +12,6 @@ use App\Item;
 use App\Menu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Eloquent implementation of the registry.
@@ -170,32 +169,8 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function getMenuLayer(int $id, int $layer): array
     {
         $menu = $this->findMenuById($id);
-        $items = $menu->items()
-            ->where('parent_id', null)
-            ->get()
-            ->all();
 
-        if (empty($items)) {
-            return [];
-        }
-
-        // Using convention that the first layer is numbered 1 instead of 0, for readability
-        for ($i = 2; $i <= $layer; ++$i) {
-            $childItems = [];
-
-            foreach ($items as $item) {
-                $childItems = array_merge($childItems, $item->children->all());
-            }
-
-            $items = $childItems;
-
-            // Break the loop if no items remaining, no need to search further
-            if (empty($items)) {
-                break;
-            }
-        }
-
-        return $items;
+        return $this->traverseMenu($menu, $layer)[0];
     }
 
     /**
@@ -215,6 +190,55 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
 
             $item->delete();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMenuDepth(int $id): int
+    {
+        $menu = $this->findMenuById($id);
+
+        return $this->traverseMenu($menu)[1];
+    }
+
+    /**
+     * Helper function for traversing menu tree. If layer is specified, returns the items on the layer and its number.
+     * Otherwise it traverses to the end and returns the number of the last layer (menu depth).
+     *
+     * @param Menu $menu
+     * @param int|null $layer
+     * @return array
+     */
+    private function traverseMenu(Menu $menu, ?int $layer = null): array
+    {
+        $items = $menu->items()
+            ->where('parent_id', null)
+            ->get()
+            ->all();
+
+        if (empty($items)) {
+            return [[], 0];
+        }
+
+        if (1 === $layer) {
+            return [$items, $layer];
+        }
+
+        $currentDepth = 1;
+
+        do {
+            ++$currentDepth;
+            $childItems = [];
+
+            foreach ($items as $item) {
+                $childItems = array_merge($childItems, $item->children->all());
+            }
+
+            $items = $childItems;
+        } while (count($items) && (null === $layer || $layer > $currentDepth));
+
+        return [$items, $currentDepth - 1];
     }
 
     /**

@@ -130,4 +130,12 @@ interface MenuRegistry
      * @return array
      */
     public function deleteMenuLayer(int $id, int $layer): void;
+
+    /**
+     * Gets the menu depth.
+     *
+     * @param int $id
+     * @return int
+     */
+    public function getMenuDepth(int $id): int;
 }
