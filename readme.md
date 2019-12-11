@@ -5,6 +5,7 @@
 - [Task description](#task-description)
 - [Routes](#routes)
 - [Bonus points](#bonus-points)
+- [Comments and considerations](#comments-and-considerations)
 
 
 ## Task Description
@@ -516,3 +517,48 @@ Get depth of menu.
 * Use cache
 * Use data structures
 * Use docker
+
+## Comments and considerations
+
+The task has taken more time than I expected, mostly because I'm not used to Laravel's and Eloquent's quirks and
+conventions and I sometimes had to work around them. The code probably needs some slight refactoring to make it perfect,
+because is not ideal as of now.
+
+### Known issues
+
+They exist mostly because of the time constraints. For a proper project I would have ironed them all out, of course.
+
+* The tests use production database
+* There are some missing feature tests, I have decided to give them up for time constraints
+* There are no unit tests for the service classes
+* There are some quirks in the code that probably need refactoring:
+  * The `MenuRegistry` service class is basically a mediator pattern implementation, and it violates the single
+  responsibility principle. Can be reworked into dedicated classes.
+  * Some database operations could use transactions to be atomic
+  * Complex store request validation should be refactored into custom rule objects
+  * The container structure should use a dedicated server container like nginx, not the php development server
+  * Php 7.4 can be used instead of 7.3
+  * Instead of using the simple database tree implementation, a dedicated nested set can be used for future development
+  * Cache isn't used for database requests, I ran out of time.
+* Ultra simple Makefile
+* No CI, phpcs and such must be run manually
+  
+### Running the app / tests
+
+After cloning run:
+
+```
+make init
+```
+
+To start the HTTP server:
+
+```
+make up
+```
+
+To run the tests
+
+```
+make test
+```
