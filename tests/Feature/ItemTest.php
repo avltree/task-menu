@@ -58,4 +58,25 @@ class ItemTest extends TestCase
         $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
         $findResponse->assertStatus(Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * Test deleting an item with children.
+     */
+    public function testDeleteItemWithChildren()
+    {
+        $itemData = [
+            'field' => 'value'
+        ];
+        $storeResponse = $this->postJson('/api/items', $itemData);
+        $itemId = $storeResponse->json('id');
+        $itemsData = [
+            [
+                'field' => 'value'
+            ]
+        ];
+        $this->postJson(sprintf('/api/items/%d/items', $itemId), $itemsData);
+        $deleteResponse = $this->delete('/api/items/' . $itemId);
+
+        $deleteResponse->assertStatus(Response::HTTP_NO_CONTENT);
+    }
 }

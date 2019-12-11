@@ -139,6 +139,7 @@ class SimpleEloquentMenuRegistry implements MenuRegistry
     public function deleteItem(int $id): void
     {
         $item = $this->findItemById($id);
+        $this->deleteItemChildren($item);
         $item->delete();
     }
 
